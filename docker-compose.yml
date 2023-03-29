@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  kavach:
+    build:
+      context: .
+      dockerfile: dockerfile
+    container_name: kavach
+    command: >
+      sh -c "cd kavach && gunicorn kavach.wsgi --bind 0.0.0.0:8000 --workers 4 --limit-request-line 5000 --error-logfile /var/log/gunicorn/error.log --access-logfile /var/log/gunicorn/access.log --capture-output --log-level debug"
+    ports:
+      - "8888:8000"
+
+# docker-compose down --remove-orphans                                    stop running containers
+# docker-compose up -d --build                                            restarts containers with latest changes
+# docker ps                                                               list runnng containers
+# docker exec -it <container name> /bin/bash                              ssh into a container
